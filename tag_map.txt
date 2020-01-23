@@ -29,58 +29,58 @@ tag	rep	req	sub-fields				json-object
 800	y	n	6 a c d q t k l f			series
 810	y	n	6 a b c d k n p l t v			series
 811	y	n	6 a c d e n p t v	  		series
-500	y 	n	6 3 a 5	      	      	    		notes      
-501	y 	n	6 a 5 	      	      	    		notes      
-502	y 	n	6 a b c d      	      	    		notes      
-504	y 	n	6 a b     	      	    		notes      
-505	y 	n	6 a g r t     	      	    		notes      
-506	y 	n	6 a     	      	    		notes      
-507	y 	n	6 a b  	      	      	    		notes      
-508	y 	n	6 a 	      	      	    		notes      
-510	y 	n	6 3 a b c x    	      	    		notes      
-511	y 	n	6 a      	      	    		notes      
-513	y 	n	6 a b 					notes      
-514	y 	n	6 a c d e g h z	      	    		notes      
-515	y 	n	6 a    	      	      	    		notes      
-516	y 	n	6 a   	      	      	    		notes      
-518	y 	n	6 a d o p     	      	    		notes      
-520	y 	n	6 3 a b c     	      	    		notes      
-522	y 	n	6 a    	      	      	    		notes      
-524	y 	n	6 a   	      	      	    		notes      
-525	y 	n	6 a   	      	      	    		notes      
-530	y 	n	6 a    	      	      	    		notes      
-532	y 	n	6 a   	      	      	    		notes      
-533	y 	n	*   	      	      	    		notes      
-534	y 	n	*   	      	      	    		notes      
-540	y 	n	6 a b c d u 5 	      	    		notes      
-541	y 	n	6 3 a b c d e f h n o 5    		notes      
-542	y 	n	6 a c d n g f o s u   	    		notes      
-544	y 	n	6 a d  	      	      	    		notes      
-545	y 	n	6 a b u	      	      	    		notes      
-546	y 	n	6 3 a b	      	      	    		notes      
-547	y 	n	6 a	      	      	    		notes      
-550	y 	n	6 a   	      	      	    		notes      
-552	y 	n	6 a b l m n z 	      	    		notes      
-555	y 	n	6 a b c d u     	    		notes      
-556	y 	n	6 a 5  	      	      	    		notes      
-561	y 	n	6 3 a u 5     	      	    		notes      
-562	y 	n	6 a b c 5     	      	    		notes      
-563	y 	n	6 3 a 5     	      	    		notes      
-565	y 	n	6 a    	      	      	    		notes      
-567	y 	n	6 a   	      	      	    		notes      
-580	y 	n	6 a   	      	      	    		notes      
-583	y 	n	*     	      	      	    		notes      
-586	y 	n	6 a    	      	      	    		notes      
-590	y 	n	*     	      	      	    		notes      
-591	y 	n	*     	      	      	    		notes      
-592	y 	n	*     	      	      	    		notes      
-593	y 	n	*     	      	      	    		notes      
-594	y 	n	*     	      	      	    		notes      
-595	y 	n	*     	      	      	    		notes      
-596	y 	n	*     	      	      	    		notes      
-597	y 	n	*     	      	      	    		notes      
-598	y 	n	*     	      	      	    		notes      
-599	y 	n	*     	      	      	    		notes      
+500	y 	n       a 3 5                                   notes
+501	y 	n       a 5                  			notes
+502	y 	n       a b c d              			notes
+504	y 	n       a b                  			notes
+505	y 	n       a g r t              			notes
+506	y 	n       a                    			notes
+507	y 	n       a b                  			notes
+508	y 	n       a                    			notes
+510	y 	n       3 a b c x            			notes
+511	y 	n       a                    			notes
+513	y 	n       a b                  			notes
+514	y 	n       a c d e g h z        			notes
+515	y 	n       a                    			notes
+516	y 	n       a                    			notes
+518	y 	n       3 a d o p            			notes
+520	y 	n       3 a b c              			notes
+522	y 	n       a                    			notes
+524	y 	n       a                    			notes
+525	y 	n       a                    			notes
+530	y 	n       a                    			notes
+532	y 	n       a                    			notes
+533	y 	n       *                    			notes
+534	y 	n       *                    			notes
+540	y 	n       3 a b c d u 5        			notes
+541	y 	n       3 a b c d e f h n o 5			notes
+542	y 	n       a c d n g f o s u    			notes
+544	y 	n       a d                  			notes
+545	y 	n       a b u                			notes
+546	y 	n       3 a b                			notes
+547	y 	n       a                    			notes
+550	y 	n       a                    			notes
+552	y 	n       a b l m n z          			notes
+555	y 	n       a b c d u            			notes
+556	y 	n       a 5                  			notes
+561	y 	n       3 a u 5              			notes
+562	y 	n       3 a b c 5            			notes
+563	y 	n       3 a 5                			notes
+565	y 	n       a                    			notes
+567	y 	n       a                    			notes
+580	y 	n       a                    			notes
+583	y 	n       *                    			notes
+586	y 	n       a                    			notes
+590	y 	n       *                    			notes
+591	y 	n       *                    			notes
+592	y 	n       *                    			notes
+593	y 	n       *                    			notes
+594	y 	n       *                    			notes
+595	y 	n       *                    			notes
+596	y 	n       *                    			notes
+597	y 	n       *                    			notes
+598	y 	n       *                    			notes
+599	y 	n       *                    			notes
 600	y 	n	*     	      	      	  		subjects      
 610	y 	n	*     	      	      	  		subjects      
 611	y 	n	*     	      	      	  		subjects      
@@ -105,7 +105,8 @@ tag	rep	req	sub-fields				json-object
 362	y	n	3 a z					publicationRange
 264	y	n	3 a b c					publication
 856	y	n	3 u y z					urls,electronicAccess
-336	y	y	3 a b c					instance_type
+336	y	y	3 a b					instance_type
 338	y	n	3 a b					instance_format
 300	y	n	3 a b c e f g				physicalDescriptions
+901	y	n	a					statistical_code
 880	y	n	*					vernacular
