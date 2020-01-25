@@ -147,7 +147,7 @@ class main_class:
         self.ref = dict()
         self.ref_dict = dict()
         self.schema = dict()
-        self.fetch_latest_json_schemas = False
+        self.fetch_latest_json_schemas = True
         self.validate_instance = None
         self.validate_holdings = None
         self.validate_item = None
@@ -184,7 +184,7 @@ def main():
         fetch_bib_ids(m)
         fetch_col_names(m)
         fetch_tag_maps(m)
-        # fetch_json_schemas(m)
+        fetch_json_schemas(m)
         load_json_schemas(m)
         load_recs(m)
     except:
@@ -1634,7 +1634,7 @@ def create_item_doc(m):
     map_item_chronology(m)
     map_item_year_caption(m)
     map_item_identifier(m)
-    map_item_copy_numbers(m)
+    # map_item_copy_numbers(m)
     map_item_num_of_pieces(m)
     map_item_description_of_pieces(m)
     map_item_number_of_missing_pieces(m)
@@ -1772,6 +1772,8 @@ def map_item_identifier(m):
 
 
 def map_item_copy_numbers(m):
+    # Temporarily excluded. Cannot include and still validate.
+    # The schema for this has changed from an array to a string.
     v = m.i['o']['r']['copy_number']
     if v: m.i['f']['d']['copyNumbers'] = [str(v)]
 
@@ -1857,39 +1859,39 @@ def map_item_status(m):
     # Talk to Cheryl and David about this 
     # For now, code everything as 'AVAILABLE'
     # Status name cannot be null
-    d = dict([(1, 'ANAL'),
-              (2, 'AVAILABLE'),
-              (4, 'AVAILABLE-AT-MANSUETO'),
-              (5,'INPROCESS'),
-              (6, 'INPROCESS-CRERAR'),
-              (7, 'INPROCESS-LAW'),
-              (8, 'INPROCESS-MANSUETO'),
-              (9, 'INPROCESS-REGENSTEIN'),
-              (10, 'INTRANSIT'),
-              (11, 'INTRANSIT-FOR-HOLD'),
-              (12, 'INTRANSIT-PER-STAFF-REQUEST'),
-              (13, 'LOANED'),
-              (14, 'LOST'),
-              (15, 'MISSING'),
-              (16, 'MISSING-FROM-MANSUETO'),
-              (18, 'ONORDER'),
-              (19, 'RECENTLY-RETURNED'),
-              (20, 'RETRIEVING-FROM-MANSUETO'),
-              (21, 'RETURNED-DAMAGED'),
-              (22, 'RETURNED-WITH-MISSING-ITEMS'),
-              (23, 'UNAVAILABLE'),
-              (25, 'DECLARED-LOST'),
-              (24, 'FLAGGED-FOR-RESERVE'),
-              (26, 'WITHDRAWN'),
-              (27, 'On Order'), (17, 'ONHOLD'),
+    d = dict([(1, 'Anal'),
+              (2, 'Available'),
+              (4, 'Available-at-Mansueto'),
+              (5,'Inprocess'),
+              (6, 'Inprocess-Crerar'),
+              (7, 'Inprocess-Law'),
+              (8, 'Inprocess-Mansueto'),
+              (9, 'Inprocess-Regenstein'),
+              (10, 'Intransit'),
+              (11, 'Intransit-For-Hold'),
+              (12, 'Intransit-Per-Staff-Request'),
+              (13, 'Loaned'),
+              (14, 'Lost'),
+              (15, 'Missing'),
+              (16, 'Missing-From-Mansueto'),
+              (18, 'Onorder'),
+              (19, 'Recently-Returned'),
+              (20, 'Retrieving-From-Mansueto'),
+              (21, 'Returned-Damaged'),
+              (22, 'Returned-With-Missing-Items'),
+              (23, 'Unavailable'),
+              (25, 'Declared-Lost'),
+              (24, 'Flagged-For-Reserve'),
+              (26, 'Withdrawn'),
+              (27, 'On Order'), (17, 'Onhold'),
               (28, 'In Process'),
-              (32,'LOST-AND-PAID'),
-              (35, 'BTAASPR'),
-              (36, 'WITHDRAWN-SPR-BTAA')])
+              (32,'Lost-And-Paid'),
+              (35, 'Btaaspr'),
+              (36, 'Withdrawn-Spr-Btaa')])
     id = m.i['o']['r']['item_status_id']
     dt = date_to_str(m.i['o']['r']['item_status_date_updated'])
     # j = dict([['name', 'AVAILABLE'], ['date', dt]]) if id in d else None
-    j = dict([['name', 'AVAILABLE'], ['date', dt]])
+    j = dict([['name', 'Available'], ['date', dt]])
     if j: m.i['f']['d']['status'] = j
     
 
@@ -3100,168 +3102,42 @@ def save_ref_tables(m, tbl, l):
 ##### validate
 
 
-# @timing
-# def fetch_json_schemas(m):
-#     # Fetch the json schemas from github and store them locally
-#     if m.fetch_latest_json_schemas:
-#         l = [{'repo': 'mod-inventory-storage',
-#               'repo_schema': 'mod-inventory-storage/ramls',
-#               'local_schema': 'schemas'},
-#              {'repo': 'raml',
-#               'repo_schema': 'raml/schemas',
-#               'local_schema': 'schemas/raml-util/schemas'},
-#              {'repo': 'data-import-raml-storage',
-#               'repo_schema': 'data-import-raml-storage/schemas/mod-source-record-storage',
-#               'local_schema': 'schemas'}
-#              # {'repo': 'data-import-raml-storage',
-#              #  'repo_schema': 'data-import-raml-storage/schemas/mod-source-record-manager',
-#              #  'local_schema': 'schemas'}
-#         ]
-#         for d in l:
-#             local_schema_path = m.cur_path/d['local_schema']
-#             local_schema_path.mkdir(exist_ok=True, parents=True)
-#             [p.unlink() for p in local_schema_path.iterdir() if p.suffix in ['.schema', '.json']]
-#         for d in l:
-#             repo_path = m.tmp_path/d['repo']
-#             shutil.rmtree(repo_path, ignore_errors=True)
-#             cmd = f"git clone https://github.com/folio-org/{d['repo']} {repo_path}"
-#             run(cmd.split(), check=True)
-#             repo_schema_path = m.tmp_path/d['repo_schema']
-#             [shutil.copy(p, local_schema_path) for p in repo_schema_path.iterdir() \
-#              if p.suffix in ['.schema', '.json']]
-#             [p.rename(str(p.parent/'time_period.json')) for p in local_schema_path.iterdir() \
-#              if p.name in ['time-period.json']]
-#             shutil.rmtree(repo_path, ignore_errors=True)
+@timing
+def fetch_json_schemas(m):
+    # Fetch the json schemas from github and store them locally
+    if not m.fetch_latest_json_schemas: return
+    temp_dir = '/tmp/temp/'
+    base_dir = 'schemas/'
+    repos = [['mod-inventory-storage', 'inv'],
+             ['data-import-raml-storage', 'srs'],
+             ['data-import-raml-storage', 'srm'],
+             ['raml', 'meta']]
+    l = [['inv', '*.json', 'ramls', 'inv'],
+         ['inv', 'instance.json', 'ramls', ''],
+         ['inv', 'holdingsrecord.json', 'ramls', ''],
+         ['inv', 'item.json', 'ramls', ''],
+         ['inv', 'uuid.json', 'ramls', ''],
+         ['meta', '*.schema', 'schemas', 'meta'],
+         ['meta', 'metadata.schema', 'schemas', 'raml-util/schemas'],
+         ['meta', 'tags.schema', 'schemas', 'raml-util/schemas'],
+         ['srs', '*.json', 'schemas/mod-source-record-storage', 'srs'],
+         ['srs', '*.json', 'schemas/common', 'srs/common'],
+         ['srs', 'uuid.json', 'schemas/common', 'common'],
+         ['srs', 'parsedRecord.json', 'schemas/mod-source-record-storage', ''],
+         ['srs', 'rawRecord.json', 'schemas/mod-source-record-storage', ''],
+         ['srm', '*.json', 'schemas/mod-source-record-manager', 'srm'],
+         ['srm', 'jobExecution.json', 'schemas/mod-source-record-manager', ''],
+         ['srm', 'jobExecutionSourceChunk.json', 'schemas/mod-source-record-manager', '']]
+    
+    [shutil.rmtree(dir, ignore_errors=True) for dir in [temp_dir, base_dir]]
+    for repo,dest in [[repo, f"{Path(temp_dir, dest)}"] for repo, dest in repos]:
+        cmd = f"git clone https://github.com/folio-org/{repo} {dest}"
+        run(cmd.split(), check=True)
 
-
-# @timing
-# def fetch_json_schemas(m):
-#     # Fetch the json schemas from github and store them locally
-#     if not m.fetch_latest_json_schemas: return
-#     temp_dir = '/tmp/temp2/'
-#     base_dir = 'schemas/'
-#     repos = [['mod-inventory-storage', 'inv'],
-#              ['data-import-raml-storage', 'srs'],
-#              ['data-import-raml-storage', 'srm'],
-#              ['raml', 'meta']]
-#     [shutil.rmtree(dir, ignore_errors=True) for dir in [temp_dir, base_dir]]
-#     for r,p = in [[r,f"{Path(temp_dir, r)}"] for r,p in repos]:
-#         cmd = f"git clone https://github.com/folio-org/{r} {p}"
-#         run(cmd.split(), check=True)
-#         if p = 'inv':
-#             dir = Path(temp_dir, p, 'mod-inventory-storage/ramls')
-#             for f in dir.glob(f"*.json"):
-#                 Path(base_dir, p).mkdir(parents=True, exist_ok=True)
-#                 shutil.copy(f, Path(base_dir, p))
-#                 if f.name in ['instance.json', 'holdingsrecord.json',
-#                               'item.json']:
-#                     shutil.copy(f, Path(base_dir))
-#         if p = 'meta':
-#             dir = Path(temp_dir, p, 'raml/schemas')
-#             for f in dir.glob(f"*.schema"):
-#                 Path(base_dir, p).mkdir(parents=True, exist_ok=True)
-#                 shutil.copy(f, Path(base_dir, p))
-#                 if f.name in ['metadata.json']:
-#                     d = Path(base_dir,'schemas/raml-util/schemas')
-#                     d.mkdir(parents=True, exist_ok=True)
-#                     shutil.copy(f,d)
-#         if p = 'srs':
-#             dir = Path(temp_dir, p, 'schemas/mod-source-record-storage')
-#             for f in dir.glob(f"*.json"):
-#                 Path(base_dir, p).mkdir(parents=True, exist_ok=True)
-#                 shutil.copy(f, Path(base_dir, p))
-#                 if f.name in ['parsedRecord.json', 'rawRecord.json'
-#                               'snapshot.json', 'recordType.json',
-#                               'errorRecord.json', 'recordMedel.json']:
-#                     d = Path(base_dir,'schemas/raml-util/schemas')
-#                     d.mkdir(parents=True, exist_ok=True)
-#                     shutil.copy(f,d)
-#             dir = Path(temp_dir, p, 'schemas/common')
-#             for f in dir.glob(f"*.json"):
-#                 if f.name in ['uuid.json']:
-#                     d = Path(base_dir, p, 'schemas/common')
-#                     d.mkdir(parents=True, exist_ok=True)
-#                     shutil.copy(f,d)
-#         if p = 'srm':
-#             dir = Path(temp_dir, p, 'schemas/mod-source-record-manager')
-#             for f in dir.glob(f"*.json"):
-#                 Path(base_dir, p).mkdir(parents=True, exist_ok=True)
-#                 shutil.copy(f, Path(base_dir, p))
-#                 if f.name in ['jobExecution.json',
-#                               'jobExecutionSourceChunk.json']:
-#                     d = Path(base_dir,'schemas/raml-util/schemas')
-#                     d.mkdir(parents=True, exist_ok=True)
-#                     shutil.copy(f,d)
-
-#             for f in Path(temp_dir, d['ref_dir'], d['repo_dir']).glob(f"*.{d['suffix']}"):
-#                 shutil.copy(f, Path(base_dir, d['ref_dir']))
-#             Path(base_dir, d['work_dir']).mkdir(parents=True, exist_ok=True)
-#             for f in [Path(temp_dir, d['ref_dir'], d['repo_dir'], f) for f in d['work_files']]:
-#                 shutil.copy(f, Path(base_dir, d['work_dir']))
-
-#     l = [{'ref_dir': 'inv',
-#           [{'filter': 'schemas/mod-source-record-storage',
-#             'files': ['*']
-#             'dest': 'inv'},
-#           {'filter': 'schemas/mod-source-record-storage',
-#             'files': ['instance.json', 'holdingsrecord.json', 'item.json']
-#             'dest': ''}]
-
-#     l = [{'repo': 'mod-inventory-storage',
-#           'repo_dir': 'ramls',
-#           'suffix': 'json',
-#           'ref_dir': 'inv',
-#           'work_files':['instance.json','holdingsrecord.json','item.json']},
-
-#          {'repo': 'raml',
-#           'repo_dir': 'schemas',
-#           'suffix': 'schema',
-#           'ref_dir': 'meta',
-#           'work_files': ['raml-util/schemas/tags.schema',
-#                          'raml-util/schemas/metadata.schema']},
-
-#          # {'repo': 'data-import-raml-storage',
-#          #  'repo_dir': 'schemas/mod-source-record-storage',
-#          #  'suffix': 'json',
-#          #  'ref_dir': 'srs',
-#          #  'work_files': []},
-
-#          {'repo': 'data-import-raml-storage',
-#           'clone_dir': 'srs',
-#           'copy_paths': [{'from': 'schemas/mod-source-record-storage/*', 'to': 'srs'}
-#                          {'from': 'schemas/mod-source-record-storage/*', 'to': 'srs'}
-                         
-#           'repo_dir': 'schemas/mod-source-record-storage',
-#           'suffix': 'json',
-#           'ref_dir': 'srs',
-#           'work_files': []},
-
-#          # {'repo': 'data-import-raml-storage',
-#          #  'repo_dir': 'schemas/mod-source-record-manager',
-#          #  'suffix': 'json',
-#          #  'ref_dir': 'srm',
-#          #  'work_files': ['parsedRecord.json', 'common/uuid.json']}]
-          
-#          {'repo': 'data-import-raml-storage',
-#           'clone_dir': 'srm',
-#           'file_paths': 
-#           'repo_dir': 'schemas/mod-source-record-manager',
-#           'ref_dir': 'srm',
-#           'suffix': 'json',
-#           'work_files': ['parsedRecord.json', 'common/uuid.json']}]
-          
-#     if m.fetch_latest_json_schemas:
-#         [shutil.rmtree(dir, ignore_errors=True) for dir in [temp_dir, base_dir]]
-#         for d in l:
-#             cmd = f"git clone https://github.com/folio-org/{d['repo']} " \
-#                   f"{Path(temp_dir, d['ref_dir'])}"
-#             run(cmd.split(), check=True)
-#             Path(base_dir, d['ref_dir']).mkdir(parents=True, exist_ok=True)
-#             for f in Path(temp_dir, d['ref_dir'], d['repo_dir']).glob(f"*.{d['suffix']}"):
-#                 shutil.copy(f, Path(base_dir, d['ref_dir']))
-#             Path(base_dir, d['work_dir']).mkdir(parents=True, exist_ok=True)
-#             for f in [Path(temp_dir, d['ref_dir'], d['repo_dir'], f) for f in d['work_files']]:
-#                 shutil.copy(f, Path(base_dir, d['work_dir']))
+    for mod, fnames, repo_dir, local_dir in l:
+        Path(base_dir, local_dir).mkdir(parents=True, exist_ok=True)
+        for f in Path(temp_dir, mod, repo_dir).glob(fnames):
+            shutil.copy(f, Path(base_dir, local_dir))
 
 
 @timing
